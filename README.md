@@ -1,2 +1,2 @@
 # starslugs
-Calculating distances between stars with known exoplanet hosts
+Calculating distances between stars that are known exoplanet hosts
