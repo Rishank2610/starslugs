@@ -3,48 +3,57 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import astropy
 
-def angular_dist(ra1, dec1, ra2, dec2):
-     '''
-     Calculates the angular distance (great circle portion) between 2 RA/Dec coordinate pairs inside celestial sphere.
-     Args:
-        ra1: RA of 1st object [deg.]
-        dec1: Dec of 1st object [deg.]
-        ra2: RA of 2nd object [deg.]
-        dec2: RA of 2nd object [deg.]
-     Output:
-        theta: angular distance between 2 objects [deg.]
-     '''
-     
-     ra1 = np.radians(ra1)
-     dec1 = np.radians(dec1)
-     ra2 = np.radians(ra2)
-     dec2 = np.radians(dec2)
-     
-     a = (np.sin(abs(dec1-dec2)/2))**2
-     b = np.cos(dec1)*np.cos(dec2)*((np.sin(abs(ra1-ra2)/2))**2)
-     theta = 2*np.arcsin(np.sqrt(a+b))
-     
-     theta = np.degrees(theta)
-     
-     return theta
+class Distance():
+    def __init__(self, system1, system2):
 
+        self.ra1 = system1.ra
+        self.ra2 = system2.ra
+        self.dec1 = system1.dec
+        self.dec2 = system2.dec
+        self.d1 = system1.distance
+        self.d2 = system2.distance
+        self.theta = self.angular_dist()
+        self.distance= self.physical_dist()
+    
+    def angular_dist(self):
+        '''
+        Calculates the angular distance (great circle portion) between 2 RA/Dec coordinate pairs inside celestial sphere.
+        Args:
+            ra1: RA of 1st object [deg.]
+            dec1: Dec of 1st object [deg.]
+            ra2: RA of 2nd object [deg.]
+            dec2: RA of 2nd object [deg.]
+        Output:
+            theta: angular distance between 2 objects [deg.]
+        '''
+        
+        ra1_rad = np.radians(self.ra1)
+        dec1_rad = np.radians(self.dec1)
+        ra2_rad = np.radians(self.ra2)
+        dec2_rad = np.radians(self.dec2)
+        
+        a = (np.sin(abs(dec1_rad-dec2_rad)/2))**2
+        b = np.cos(dec1_rad)*np.cos(dec2_rad)*((np.sin(abs(ra1_rad-ra2_rad)/2))**2)
+        
+        theta_rad = 2*np.arcsin(np.sqrt(a+b))
+                
+        return np.degrees(theta_rad)
+    
+    def physical_dist(self):
+        '''
+        Uses the physical and angular distances between 2 objects to calculate (3-D) distance between them with law of cosines.
+        Args:
+            d1: physical distance to 1st object [pc]
+            d2: physical distance to 2nd object [pc]
+            theta: angular distance (great circle) between 2 objects on celestial sphere [deg]
+        Returns:
+            D: physical distance from object 1 to object 2 [pc]
+        '''
 
-def physical_dist(d1, d2, theta):
-    '''
-    Uses the physical and angular distances between 2 objects to calculate (3-D) distance between them with law of cosines.
-    Args:
-        d1: physical distance to 1st object [pc]
-        d2: physical distance to 2nd object [pc]
-        theta: angular distance (great circle) between 2 objects on celestial sphere [deg]
-    Returns:
-        D: physical distance from object 1 to object 2 [pc]
-    '''
+        D_squared = self.d1**2 + self.d2**2 - 2*self.d1*self.d2*np.cos(self.theta)
 
-    D_squared = d1**2 + d2**2 - 2*d1*d2*np.cos(theta)
-
-    return np.sqrt(D_squared)
-
-
+        return np.sqrt(D_squared)
+    
 
 
 
@@ -109,7 +118,14 @@ class StarSystem():
 
         return
 
-test_sys = StarSystem(data, sys_name='11 Com')
-test_sys.get_row()
-test_sys.get_info()
-test_sys.print_info()
+
+sys1 = StarSystem(data, sys_name='51 Eri')
+sys1.get_row()
+sys1.get_info()
+
+sys2 = StarSystem(data, sys_name='51 Peg')
+sys2.get_info()
+sys2.get_info()
+
+
+distance_12_obj = Distance(sys1, sys2)
