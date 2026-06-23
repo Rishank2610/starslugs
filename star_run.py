@@ -6,12 +6,12 @@ def angular_dist(ra1, dec1, ra2, dec2):
      '''
      Calculates the angular distance (great circle portion) between 2 RA/Dec coordinate pairs inside celestial sphere.
      Args:
-        ra1: RA of 1st object (in deg.)
-        dec1: Dec of 1st object (in deg.)
-        ra2: RA of 2nd object (in deg.)
-        dec2: RA of 2nd object (in deg.)
+        ra1: RA of 1st object [deg.]
+        dec1: Dec of 1st object [deg.]
+        ra2: RA of 2nd object [deg.]
+        dec2: RA of 2nd object [deg.]
      Output:
-        theta: angular distance between 2 objects (in deg.)
+        theta: angular distance between 2 objects [deg.]
      '''
      
      ra1 = np.radians(ra1)
@@ -26,6 +26,22 @@ def angular_dist(ra1, dec1, ra2, dec2):
      theta = np.degrees(theta)
      
      return theta
+
+
+def physical_dist(d1, d2, theta):
+    '''
+    Uses the physical and angular distances between 2 objects to calculate (3-D) distance between them with law of cosines.
+    Args:
+        d1: physical distance to 1st object [pc]
+        d2: physical distance to 2nd object [pc]
+        theta: angular distance (great circle) between 2 objects on celestial sphere [deg]
+    Returns:
+        D: physical distance from object 1 to object 2 [pc]
+    '''
+
+    D_squared = d1**2 + d2**2 - 2*d1*d2*np.cos(theta)
+
+    return np.sqrt(D_squared)
 
 
 
