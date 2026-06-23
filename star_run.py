@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import astropy
 
+
+# read in csv data
+data = pd.read_csv('exoplanet_archive_2026_06_22.csv', skiprows=28)
+
+
 class Distance():
     def __init__(self, system1, system2):
 
@@ -53,13 +58,6 @@ class Distance():
         D_squared = self.d1**2 + self.d2**2 - 2*self.d1*self.d2*np.cos(self.theta)
 
         return np.sqrt(D_squared)
-    
-
-
-
-
-# read in csv data
-data = pd.read_csv('exoplanet_archive_2026_06_22.csv', skiprows=28)
 
 
 class StarSystem():
@@ -72,13 +70,21 @@ class StarSystem():
         self.dec = None # dec
         self.star_teff =  None # st_teff
         self.pl_num = None # sy_pnum
-        self_star_num = None # sy_snum
+        self.star_num = None # sy_snum
+    
+    def clean_data(self) -> pd.DataFrame:
+        """
+        Clean the data for the system
+        """
+        mask  = self.csv_data['st_teff'].isna() and self.csv_data['sy_dist'].isna()
+        self.csv_data = self.csv_data[~mask]
+        return self.csv_data
     
     def get_row(self):
         """
         csv_data: assuming this is already read into a pd dataframe
         """
-
+        self.clean_data()
         obj_rows = self.csv_data[self.csv_data['hostname'] == self.sys_name] # Getting the row for the system
 
         if len(obj_rows) > 1:
@@ -119,13 +125,47 @@ class StarSystem():
         return
 
 
-sys1 = StarSystem(data, sys_name='51 Eri')
-sys1.get_row()
-sys1.get_info()
+def print_info_two_systems(systems_list):
+    """
+    Print the information for two systems
+    """
+    row_name = []
+    for i in range(len(systems_list)):
+        row_name.append(systems_list[i].sys_name)
+    col_name = ['RA', 'Dec', 'Distance', 'Teff', 'Number of Planets', 'Number of Stars']
 
-sys2 = StarSystem(data, sys_name='51 Peg')
-sys2.get_info()
-sys2.get_info()
+    table_data = []
+    for i in range(len(systems_list)):
+        table_data.append([systems_list[i].ra, systems_list[i].dec, systems_list[i].distance, systems_list[i].star_teff, systems_list[i].pl_num, systems_list[i].star_num])
+    
+    plt.table(cellText=table_data, rowLabels=row_name, colLabels=col_name, loc='center', cellLoc='center')
+    plt.axis('off')
+    #my_table.scale(1, 1.5)
+    plt.show()
+    return
 
 
-distance_12_obj = Distance(sys1, sys2)
+def main():
+    """
+    Main function
+    """
+    test_sys_1 = StarSystem(data, sys_name='51 Eri')
+    #test_sys_1.get_row()
+    test_sys_1.get_info()
+    #test_sys_1.print_info()
+
+    test_sys_2 = StarSystem(data, sys_name='11 Com')
+    #test_sys_2.get_row()
+    test_sys_2.get_info()
+    #test_sys_2.print_info()
+
+    systems_list = [test_sys_1, test_sys_2]
+    print_info_two_systems(systems_list)
+
+    # get physical 3-d distance between system 1 and system 2
+    distance_12_obj = Distance(sys1, sys2) # Distance object
+    distance_12 = distance_12_obj.distance # distance [pc]
+
+
+if __name__ == '__main__':
+    main()
