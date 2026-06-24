@@ -71,6 +71,7 @@ class StarSystem():
         self.star_teff =  None # st_teff
         self.pl_num = None # sy_pnum
         self.star_num = None # sy_snum
+        self.get_info()
     
     def clean_data(self) -> pd.DataFrame:
         """
@@ -125,7 +126,7 @@ class StarSystem():
         return
 
 
-def print_info_two_systems(systems_list):
+def print_info_systems(systems_list):
     """
     Print the information for two systems
     """
@@ -151,20 +152,21 @@ def main():
     """
     test_sys_1 = StarSystem(data, sys_name='51 Eri')
     #test_sys_1.get_row()
-    test_sys_1.get_info()
+    #test_sys_1.get_info()
     #test_sys_1.print_info()
 
     test_sys_2 = StarSystem(data, sys_name='11 Com')
     #test_sys_2.get_row()
-    test_sys_2.get_info()
+    #test_sys_2.get_info()
     #test_sys_2.print_info()
 
     systems_list = [test_sys_1, test_sys_2]
-    print_info_two_systems(systems_list)
+    print_info_systems(systems_list)
 
     # get physical 3-d distance between system 1 and system 2
-    distance_12_obj = Distance(sys1, sys2) # Distance object
+    distance_12_obj = Distance(test_sys_1, test_sys_2) # Distance object
     distance_12 = distance_12_obj.distance # distance [pc]
+    print(distance_12)
 
 
 if __name__ == '__main__':
