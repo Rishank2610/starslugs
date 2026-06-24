@@ -1,4 +1,8 @@
 numpy
-matplotlib
-pandas
 astropy
+scipy
+matplotlib
+deprecation
+pytest
+pandas
+astroquery
