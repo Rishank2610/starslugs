@@ -9,10 +9,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "starslugs"
-dynamic = ["0.0.1"]
+dynamic = ["version"]
 dependencies = [
     "numpy",
-    "astropy,
+    "astropy",
     "scipy",
     "matplotlib",
     "deprecation",
