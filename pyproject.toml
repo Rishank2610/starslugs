@@ -1,0 +1,28 @@
+[build-system]
+requires = [
+    "setuptools", 
+    "numpy",
+    "cython", 
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "starslugs"
+dynamic = ["0.0.1"]
+dependencies = [
+    "numpy",
+    "astropy,
+    "scipy",
+    "matplotlib",
+    "deprecation",
+    "pytest",
+    "pandas",
+    "astroquery"
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "starslugs.__version__"}
+
+[tool.setuptools.packages]
+find = {}
