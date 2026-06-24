@@ -127,8 +127,15 @@ class StarSystem():
 
 
 def print_info_systems(systems_list):
-    """
+    """print_info_systems
+
     Print the information for two systems
+
+    Args:
+        a (array): I'm just testing things
+    
+    Returns:
+        float: Another test
     """
     row_name = []
     for i in range(len(systems_list)):
