@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "starslugs"
-dynamic = ["version"]
+version = "0.0.1"
 dependencies = [
     "numpy",
     "astropy",
@@ -20,9 +20,3 @@ dependencies = [
     "pandas",
     "astroquery"
 ]
-
-[tool.setuptools.dynamic]
-version = {attr = "starslugs.__version__"}
-
-[tool.setuptools.packages]
-find = {}
