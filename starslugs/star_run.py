@@ -5,7 +5,7 @@ import astropy
 
 
 # read in csv data
-data = pd.read_csv('exoplanet_archive_2026_06_22.csv', skiprows=28)
+data = pd.read_csv('../data/exoplanet_archive_2026_06_22.csv', skiprows=28)
 
 
 class Distance():
