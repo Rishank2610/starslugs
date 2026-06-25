@@ -77,7 +77,7 @@ class StarSystem():
         """
         Clean the data for the system
         """
-        mask  = self.csv_data['st_teff'].isna() | self.csv_data['sy_dist'].isna()
+        mask  = self.csv_data['st_teff'].isna() and self.csv_data['sy_dist'].isna()
         self.csv_data = self.csv_data[~mask]
         return self.csv_data
     
@@ -152,3 +152,29 @@ def print_info_systems(systems_list):
     plt.show()
     return
 
+
+def main():
+    """
+    Main function
+    """
+    test_sys_1 = StarSystem(data, sys_name='51 Eri')
+    #test_sys_1.get_row()
+    #test_sys_1.get_info()
+    #test_sys_1.print_info()
+
+    test_sys_2 = StarSystem(data, sys_name='11 Com')
+    #test_sys_2.get_row()
+    #test_sys_2.get_info()
+    #test_sys_2.print_info()
+
+    systems_list = [test_sys_1, test_sys_2]
+    print_info_systems(systems_list)
+
+    # get physical 3-d distance between system 1 and system 2
+    distance_12_obj = Distance(test_sys_1, test_sys_2) # Distance object
+    distance_12 = distance_12_obj.distance # distance [pc]
+    print(distance_12)
+
+
+if __name__ == '__main__':
+    main()
