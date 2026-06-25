@@ -146,9 +146,18 @@ def print_info_systems(systems_list):
     for i in range(len(systems_list)):
         table_data.append([systems_list[i].ra, systems_list[i].dec, systems_list[i].distance, systems_list[i].star_teff, systems_list[i].pl_num, systems_list[i].star_num])
     
-    plt.table(cellText=table_data, rowLabels=row_name, colLabels=col_name, loc='center', cellLoc='center')
-    plt.axis('off')
-    #my_table.scale(1, 1.5)
-    plt.show()
-    return
+    fig, ax = plt.subplots(figsize=(8, 3 + 0.7 * len(table_data)), dpi=200)  # Increase figure size and resolution
+    ax.axis('off')
+    my_table = ax.table(cellText=table_data, rowLabels=row_name, colLabels=col_name, loc='center', cellLoc='center')
 
+    # Enhance table aesthetics for higher quality
+    my_table.auto_set_font_size(False)
+    my_table.set_fontsize(8)
+    my_table.scale(1.2, 1.8)
+
+    plt.tight_layout(pad=2)
+    #plt.savefig("star.png", dpi=300, bbox_inches='tight', transparent=True)  # Save with higher DPI and cleaner layout
+    #plt.close(fig)
+    plt.show()
+
+    return
