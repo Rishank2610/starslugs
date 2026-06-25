@@ -5,7 +5,7 @@ import astropy
 
 
 # read in csv data
-data = pd.read_csv('exoplanet_archive_2026_06_22.csv', skiprows=28)
+data = pd.read_csv('../data/exoplanet_archive_2026_06_22.csv', skiprows=28)
 
 
 class Distance():
@@ -127,8 +127,15 @@ class StarSystem():
 
 
 def print_info_systems(systems_list):
-    """
+    """print_info_systems
+
     Print the information for two systems
+
+    Args:
+        a (array): I'm just testing things
+    
+    Returns:
+        float: Another test
     """
     row_name = []
     for i in range(len(systems_list)):

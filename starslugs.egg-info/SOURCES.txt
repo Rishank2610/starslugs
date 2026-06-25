@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+starslugs/__init__.py
+starslugs/star_run.py
+starslugs.egg-info/PKG-INFO
+starslugs.egg-info/SOURCES.txt
+starslugs.egg-info/dependency_links.txt
+starslugs.egg-info/requires.txt
+starslugs.egg-info/top_level.txt
