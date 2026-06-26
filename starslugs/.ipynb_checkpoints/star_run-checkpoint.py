@@ -77,7 +77,7 @@ class StarSystem():
         """
         Clean the data for the system
         """
-        mask  = self.csv_data['st_teff'].isna() | self.csv_data['sy_dist'].isna()
+        mask  = self.csv_data['st_teff'].isna() and self.csv_data['sy_dist'].isna()
         self.csv_data = self.csv_data[~mask]
         return self.csv_data
     
@@ -114,14 +114,14 @@ class StarSystem():
         """
         
         row_name = [self.sys_name]
-        col_name = ['RA [deg]', 'Dec [deg]', 'Distance [pc]', 'Teff [k]', '# Planets', '# Stars']
+        col_name = ['RA', 'Dec', 'Distance', 'Teff', 'Number of Planets', 'Number of Stars']
         table_data = [[self.ra, self.dec, self.distance, self.star_teff, self.pl_num, self.star_num]]
         my_table = plt.table(cellText=table_data, rowLabels=row_name, colLabels=col_name, loc='center', cellLoc='center')
         plt.axis('off')
         # Increase cell size (width factor, height factor)
         my_table.scale(1, 1.5)
 
-        #plt.show()
+        plt.show()
 
         return
 
@@ -140,24 +140,41 @@ def print_info_systems(systems_list):
     row_name = []
     for i in range(len(systems_list)):
         row_name.append(systems_list[i].sys_name)
-    col_name = ['RA [deg]', 'Dec [deg]', 'Distance [pc]', 'Teff [k]', '# Planets', '# Stars']
+    col_name = ['RA', 'Dec', 'Distance', 'Teff', 'Number of Planets', 'Number of Stars']
 
     table_data = []
     for i in range(len(systems_list)):
-        table_data.append([round(systems_list[i].ra,3), round(systems_list[i].dec,3), round(systems_list[i].distance,3), systems_list[i].star_teff, systems_list[i].pl_num, systems_list[i].star_num])
+        table_data.append([systems_list[i].ra, systems_list[i].dec, systems_list[i].distance, systems_list[i].star_teff, systems_list[i].pl_num, systems_list[i].star_num])
     
-    fig, ax = plt.subplots(figsize=(8, 3 + 0.7 * len(table_data)), dpi=200)  # Increase figure size and resolution
-    ax.axis('off')
-    my_table = ax.table(cellText=table_data, rowLabels=row_name, colLabels=col_name, loc='center', cellLoc='center')
+    plt.table(cellText=table_data, rowLabels=row_name, colLabels=col_name, loc='center', cellLoc='center')
+    plt.axis('off')
+    #my_table.scale(1, 1.5)
+    plt.show()
+    return
 
-    # Enhance table aesthetics for higher quality
-    my_table.auto_set_font_size(False)
-    my_table.set_fontsize(8)
-    my_table.scale(1.2, 1.8)
 
-    plt.tight_layout(pad=2)
-    #plt.savefig("star.png", dpi=300, bbox_inches='tight', transparent=True)  # Save with higher DPI and cleaner layout
-    #plt.close(fig)
-    #plt.show()
+def main():
+    """
+    Main function
+    """
+    test_sys_1 = StarSystem(data, sys_name='51 Eri')
+    #test_sys_1.get_row()
+    #test_sys_1.get_info()
+    #test_sys_1.print_info()
 
-    return my_table, fig
+    test_sys_2 = StarSystem(data, sys_name='11 Com')
+    #test_sys_2.get_row()
+    #test_sys_2.get_info()
+    #test_sys_2.print_info()
+
+    systems_list = [test_sys_1, test_sys_2]
+    print_info_systems(systems_list)
+
+    # get physical 3-d distance between system 1 and system 2
+    distance_12_obj = Distance(test_sys_1, test_sys_2) # Distance object
+    distance_12 = distance_12_obj.distance # distance [pc]
+    print(distance_12)
+
+
+if __name__ == '__main__':
+    main()
