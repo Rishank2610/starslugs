@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "starslugs"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
     "numpy",
     "astropy",
@@ -20,3 +20,8 @@ dependencies = [
     "pandas",
     "astroquery"
 ]
+
+[tool.setuptools.packages.find]
+include = ["starslugs*"]
+exclude = ["data*", "test_branch*"]
+namespaces = false
