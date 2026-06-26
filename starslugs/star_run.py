@@ -114,14 +114,14 @@ class StarSystem():
         """
         
         row_name = [self.sys_name]
-        col_name = ['RA', 'Dec', 'Distance', 'Teff', 'Number of Planets', 'Number of Stars']
+        col_name = ['RA [deg]', 'Dec [deg]', 'Distance [pc]', 'Teff [k]', '# Planets', '# Stars']
         table_data = [[self.ra, self.dec, self.distance, self.star_teff, self.pl_num, self.star_num]]
         my_table = plt.table(cellText=table_data, rowLabels=row_name, colLabels=col_name, loc='center', cellLoc='center')
         plt.axis('off')
         # Increase cell size (width factor, height factor)
         my_table.scale(1, 1.5)
 
-        plt.show()
+        #plt.show()
 
         return
 
@@ -140,11 +140,11 @@ def print_info_systems(systems_list):
     row_name = []
     for i in range(len(systems_list)):
         row_name.append(systems_list[i].sys_name)
-    col_name = ['RA', 'Dec', 'Distance', 'Teff', 'Number of Planets', 'Number of Stars']
+    col_name = ['RA [deg]', 'Dec [deg]', 'Distance [pc]', 'Teff [k]', '# Planets', '# Stars']
 
     table_data = []
     for i in range(len(systems_list)):
-        table_data.append([systems_list[i].ra, systems_list[i].dec, systems_list[i].distance, systems_list[i].star_teff, systems_list[i].pl_num, systems_list[i].star_num])
+        table_data.append([round(systems_list[i].ra,3), round(systems_list[i].dec,3), round(systems_list[i].distance,3), systems_list[i].star_teff, systems_list[i].pl_num, systems_list[i].star_num])
     
     fig, ax = plt.subplots(figsize=(8, 3 + 0.7 * len(table_data)), dpi=200)  # Increase figure size and resolution
     ax.axis('off')
@@ -158,6 +158,6 @@ def print_info_systems(systems_list):
     plt.tight_layout(pad=2)
     #plt.savefig("star.png", dpi=300, bbox_inches='tight', transparent=True)  # Save with higher DPI and cleaner layout
     #plt.close(fig)
-    plt.show()
+    #plt.show()
 
-    return
+    return my_table, fig
